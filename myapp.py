@@ -5,7 +5,7 @@ from openml_gatheringruns import *
 from OpenML_connection import *
 from PIL import Image
 import plotly.express as px
-import hydralit_components as hc
+
 from PIL import Image
 
 def running_missingtasks(flows_id, missing_tasks):
