@@ -2,34 +2,35 @@ from scipy.sparse import data
 import streamlit as st
 import locale
 from openml_gatheringruns import *
+from OpenML_connection import *
 from PIL import Image
 import plotly.express as px
 
 
 
-
+evaluation_id = []
 
 st.title(""" OpenML Mythbusting """)
-st.write("""  An artist or a producer can try this app to get a prediction of the amount of streams his song will get or to get a prediction of how high the song will be in the charts compared to the existing songs on Spotify.""")
-st.write("""This app uses a prediction algtorithm based on a data set of spotify songs.
-        To make a valid prediction we need a little bit information about the song:\n
-        - Artist's number of followers on Spotify
-        - Tempo of the song
-        - Duration of the song in ms""")
+st.write(""" This application allows the user to fully experience what a data scientist does.""")
+st.write("""This app uses a algorithms from OpenMl to do the following:\n
+        - Running flows on tasks
+        - Checks if all task are runned on a study, if not, tries to do it again
+        - Created multiple plots from the study_id""")
 
 st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")
-st.write("(The less information provided the less precise the prediction will be. So please try to answer all of the fields!)")
 
 #inputs
 study_id = st.text_input('study_id: (ex. 123)',)
 flow_id1 = st.number_input("flow_id1: (ex. 7754)",step=1, value=7754, min_value = 0, max_value=100000000)
 flow_id2 = st.number_input("flow_id2: (ex. 7756)",step=1, value=7756, min_value = 0, max_value=100000000)
 
+flows_id = [flow_id1, flow_id2]
 if st.button('Runmodel'):
     #with st.spinner("Training ongoing"):
     missingtasks = gatheringruns(study_id, flow_id1, flow_id2)
-    st.write(f'"""The missingtasks are: {missingtasks}"""')
+    st.write(f'The missingtasks are:\n {missingtasks}')
+    evaluation_id = loadResults(study_id, flows_id)
 
 """#    data class
 app = SpotifyApp('spotify_dataset.csv')
@@ -62,4 +63,14 @@ fig = px.scatter(df,
 #creating a scatter plot 
 if y_axis == 'Highest Charting Position': fig['layout']['yaxis']['autorange'] = "reversed"
 st.plotly_chart(fig)
+
+fig = px.scatter( 
+        x=evaluation_id[0],
+        y=evaluation_id[1],
+        hover_name=evaluation_id[0],
+        title=f'{evaluation_id[0]} compared to {evaluation_id[1]}',
+        color = "Tempo",
+        trendline="lowess")
+#creating a scatter plot 
 """
+print("evaluation_id", evaluation_id)
