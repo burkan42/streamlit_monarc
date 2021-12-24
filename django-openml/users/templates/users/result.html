@@ -1,0 +1,148 @@
+<!--users/templates/users/result.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style >
+        p {
+        font-family: 'Courier New', Courier, monospace;
+        }
+
+        * {
+        box-sizing: border-box;
+        }
+
+        body {
+        font: 16px Arial;  
+        }
+
+        .hidden {
+        display: none !important;
+        }
+
+        /*the container must be positioned relative:*/
+        .autocomplete {
+        position: relative;
+        display: inline-block;
+        }
+
+        input {
+        border: 1px solid black;
+        background-color: #f1f1f1;
+        padding: 10px;
+        font-size: 16px;
+        }
+
+        input[type=text] {
+        background-color: #f1f1f1;
+        width: 100%;
+        }
+
+        input[type=submit] {
+        background-color: DodgerBlue;
+        color: #fff;
+        cursor: pointer;
+        }
+
+        .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+        }
+
+        .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff; 
+        border-bottom: 1px solid #d4d4d4; 
+        }
+
+        /*when hovering an item:*/
+        .autocomplete-items div:hover {
+        background-color: #e9e9e9; 
+        }
+
+        /*when navigating through the items using the arrow keys:*/
+        .autocomplete-active {
+        background-color: DodgerBlue !important; 
+        color: #ffffff; 
+        }
+
+    </style>
+
+    {% extends 'base1.html' %}
+    <title>Monarc</title>
+</head>  
+
+
+{% block content %}
+<html>
+  <body>
+        <h2>Your chosen parameters are:</h2>
+            {% csrf_token %}
+            <p>{{ desc }}</p>
+            <div id="dictcontainer"></div>
+            <script>
+                var data = JSON.parse(window.localStorage.getItem("array"));
+                console.log(data);
+                input = [];
+                suit = data[0];
+                // console.log("benchmarksuite = " + suit)
+                
+        
+
+                var dictcontainer = document.getElementById('dictcontainer');
+                var suit = document.createElement('h5');
+                suit.innerText = "Benchmarksuite";  
+                dictcontainer.appendChild(suit);
+
+                var suitval = document.createElement('p');
+                suitval.innerText = String(data[0]);  
+                dictcontainer.appendChild(suitval);
+
+                var i = 1;
+                var flowpaircount = 1;
+                while (data[i]){
+                    // flowpair=array[i]
+                    console.log(data[i]);
+                    console.log("flow pair number = " + flowpaircount);
+                    console.log("flows in current flow pair = ");
+                    console.log(data[i]);
+                    if (i%2 == 1){
+                        var flownum = document.createElement('h5');
+                        flownum.innerText = "flowpair " + flowpaircount;  
+                        dictcontainer.appendChild(flownum);
+                        flowpaircount = flowpaircount + 1;
+                    }
+                    
+        
+                    var flow = document.createElement('p');
+                    flow.innerText = String(data[i]);  
+                    dictcontainer.appendChild(flow);
+                    i = i + 1;
+
+                    // TODO: debuggen: parakey.innerText = "<b>" + {String(key)} + ": " + "</b>" + {String(value)};
+                }
+            </script>
+
+            <br>
+        <h2>The results are:</h2>
+            <!-- TODO: get plotjes from openml_connection via 'output' below: -->
+            
+            {% for graph in output %}
+                {{ graph }}
+            {% endfor %}
+
+    </body>
+    
+</html>
+{% endblock %}
+

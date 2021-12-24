@@ -1,0 +1,7 @@
+.vscode/launch.json
+.vscode/test.php
+site/test/debugging.php
+.env
+/node
+
+settings.py

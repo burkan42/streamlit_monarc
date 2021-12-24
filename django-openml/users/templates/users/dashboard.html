@@ -1,0 +1,255 @@
+<!--users/templates/users/dashboard.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ajax function def -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+        function ajaxfunc(array){
+            console.log("within ajax call");
+            $.ajax({
+                url: '/dashboard',
+                datatype: 'array',
+                data: {
+                    "array": array,
+                },
+                success: function (data) {
+                    // any process in data
+                    console.log("successfull");
+                },
+                failure: function () {
+                    console.log("failure");
+                }
+            });
+        }
+    </script>
+
+    <!-- add and remove elements & save user input-->
+    <script>
+        localStorage.clear();
+        form_count = 2;
+        div_count = 0;
+        
+        // Add elements
+        function plusclicked() {
+            form_count ++;
+            div_count ++;
+            var container = document.getElementById('container');
+            var div = document.createElement('div');
+            div.id = 'id_div_' + div_count;
+            container.appendChild(div);
+            
+
+            var para = document.createElement('p');
+            para.innerText = 'flow_' + form_count;  
+            div.appendChild(para);
+
+            var text = document.createElement('input');
+            text.type = 'text';
+            text.name = 'flow_' + form_count;
+            text.required = true;
+            text.id = 'id_flow_' + form_count;
+            div.appendChild(text);
+            
+            var x = document.createElement("BR");
+            div.appendChild(x);
+
+            form_count ++;
+            var para = document.createElement('p');
+            para.innerText = 'flow_' + form_count;  
+            div.appendChild(para);
+
+            var text = document.createElement('input');
+            text.type = 'text';
+            text.name = 'flow_' + form_count;
+            text.required = true;
+            text.id = 'id_flow_' + form_count;
+            
+            div.appendChild(text);
+            
+
+            var x = document.createElement("BR");
+            div.appendChild(x);}
+
+
+        // Remove elements
+        function minclicked() {
+            form_count = form_count - 2;
+            div_count = div_count -1;
+            var container = document.getElementById('container');
+            container.removeChild(container.lastChild);
+        }
+
+        // save user input to localStorage & use ajax call to pass to python
+        function test() {
+            console.log("entered test?");
+            var container = document.getElementById('container');
+            var array = []; // create empty array
+            console.log("array =");
+            console.log(array);
+
+            count = 0;
+            // var basissub =[];*-
+            // console.log("basissub =");
+            // console.log(basissub);
+
+            for (basis_input in container.getElementsByTagName("input")){
+                var y = container.getElementsByTagName("input")[basis_input];
+                if (y.name != undefined && y.value != undefined){
+                    var nkey = y.name;
+                    var value = y.value;
+                    if (count == 0){
+                        array.push(value);   
+                        console.log("suite =");
+                        console.log(value);
+                    }
+                    else {
+                        array.push(value);
+                        console.log("flow =");
+                        console.log(value);
+                    }                        
+                    count ++;
+                }
+            }
+
+            for (div_num in div_count){
+                var div = container.getElementsById('id_div_' + div_num);
+                for (input_num in div.getElementsByTagName("input")){
+                    var y = div.getElementsByTagName("input")[input_num];
+                    if (y.name != undefined && y.value != undefined){
+                        var nkey = y.name;
+                        var value = y.value;
+                        array.push(value);
+                    }
+                }
+            }
+
+            // console.log("dict:");
+            // console.log(dict);
+            // window.localStorage.setItem("dict", JSON.stringify(dict));
+            console.log("array =");
+            console.log(array);
+            window.localStorage.setItem("array", JSON.stringify(array));
+
+            ajaxfunc(array);
+
+            // To access above stored data:
+            // var array = JSON.parse(window.localStorage.getItem("array"));
+        }
+    </script>
+
+    {% extends 'base.html' %}
+    {% block links %}
+
+    <!-- <link rel="stylesheet" href="'css/style.css'"> -->
+    <script src=Flow.txt></script>
+    <script src=Suites.txt></script>
+    <style >
+            p {
+            font-family: 'Courier New', Courier, monospace;
+            }
+
+            * {
+            box-sizing: border-box;
+            }
+
+            body {
+            font: 16px Arial;  
+            }
+
+            .hidden {
+            display: none !important;
+            }
+
+            /*the container must be positioned relative:*/
+            .autocomplete {
+            position: relative;
+            display: inline-block;
+            }
+
+            input {
+            border: 1px solid black;
+            background-color: #f1f1f1;
+            padding: 10px;
+            font-size: 16px;
+            }
+
+            input[type=text] {
+            background-color: #f1f1f1;
+            width: 100%;
+            }
+
+            input[type=submit] {
+            background-color: DodgerBlue;
+            color: #fff;
+            cursor: pointer;
+            }
+
+            .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+            }
+
+            .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff; 
+            border-bottom: 1px solid #d4d4d4; 
+            }
+
+            /*when hovering an item:*/
+            .autocomplete-items div:hover {
+            background-color: #e9e9e9; 
+            }
+
+            /*when navigating through the items using the arrow keys:*/
+            .autocomplete-active {
+            background-color: DodgerBlue !important; 
+            color: #ffffff; 
+            }
+
+    </style>
+    {% endblock %}
+    <title>Monarc</title>
+</head>  
+
+
+{% block content %}
+<html>
+  <body>
+        <h2>Please select your suit and flows:</h2>
+
+        <form autocomplete="off" method="post" action="{% url 'result' %}">
+            {% csrf_token %}
+            <p>{{ desc }}</p>
+            {% if form %}
+            <div class="autocomplete" style="width:500px;" id="container">
+                    {% for item in form %}
+                            <p> {{item.name}}</p>
+                                {{item}}
+                                <br>
+                    {% endfor %}
+            
+                {% else %}
+                    <p>No form available.</p>
+                {% endif %}
+            </div>
+            <br>
+            <button id="add-another" onclick=plusclicked()>+</button>
+            <button id="remove" onclick=minclicked()>-</button>
+            <input type ="submit" id="testje" onclick=test()>
+        </form>
+    </body>
+</html>
+{% endblock %}
