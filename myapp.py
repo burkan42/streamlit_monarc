@@ -28,8 +28,8 @@ flow_id2 = st.number_input("flow_id2: (ex. 7756)",step=1, value=7756, min_value 
 
 if st.button('Runmodel'):
     #with st.spinner("Training ongoing"):
-    gathered = gatheringruns(study_id, flow_id1, flow_id2)
-    st.header(gathered)
+    missingtasks = gatheringruns(study_id, flow_id1, flow_id2)
+    st.write(f'The missingtasks are: {missingtasks}')
 
 """#    data class
 app = SpotifyApp('spotify_dataset.csv')
