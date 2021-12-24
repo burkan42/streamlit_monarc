@@ -5,7 +5,6 @@ from openml_gatheringruns import *
 from OpenML_connection import *
 from PIL import Image
 import plotly.express as px
-
 from PIL import Image
 
 def running_missingtasks(flows_id, missing_tasks):
@@ -21,8 +20,9 @@ def running_missingtasks(flows_id, missing_tasks):
             else:
                 st.write("is succesful!")
 
-
 evaluation_id = []
+missingtasks = []
+counter = 3
 
 st.title(""" OpenML Mythbusting """)
 st.write(""" This application allows the user to fully experience what a data scientist does.""")
@@ -35,31 +35,30 @@ st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")
 
 #inputs
-name = st.text_input("Type here the name of your algorithm",)
 study_id = st.number_input("study_id: (ex. 123)",step=1, value=123, min_value = 0, max_value=100000000)
 flow_id1 = st.number_input("flow_id1: (ex. 7754)",step=1, value=7754, min_value = 0, max_value=100000000)
 flow_id2 = st.number_input("flow_id2: (ex. 7756)",step=1, value=7756, min_value = 0, max_value=100000000)
 
 flows_id = [flow_id1, flow_id2]
+
 if st.button('Runmodel'):
     #with st.spinner("Training ongoing"):
     missingtasks = gatheringruns(study_id, flow_id1, flow_id2)
-    st.header("The log")
-    st.write(f'The missingtasks are:\n {missingtasks}')
+    #st.write(f'The missingtasks are:\n {missingtasks}')
     evaluation_id = loadResults(study_id, flows_id)
 
-def plots():
-        st.header("The plots")
-        image = Image.open('barplot.png')
-        st.image(image, caption='barplot')
-        image = Image.open('diagplot.png')
-        st.image(image, caption='diagplot')
-        image = Image.open('splot.png')
-        st.image(image, caption='splot')
+if st.button('+'):
+        #(kaas,('counter')) = st.number_input(f"flow_id{counter}: (ex. 7754)",step=1, value=7754, min_value = 0, max_value=100000000)
+        flow_id5 = st.number_input(f"flow_id{counter}: (ex. 7756)",step=1, value=7756, min_value = 0, max_value=100000000)
+        counter = counter + 1
+        flow_id4 = st.number_input(f"flow_id{counter}: (ex. 7756)",step=1, value=7756, min_value = 0, max_value=100000000)
+        counter = counter + 1
+
 
 expander = st.expander("See all logs")
 with expander:
     st.write("Here you can see everything that happens")
+    st.write(f'The missingtasks are:\n {missingtasks}')
     running_missingtasks(flows_id,missingtasks)
 
 plots_expander = st.expander("See the plots")
