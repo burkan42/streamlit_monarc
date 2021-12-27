@@ -7,6 +7,8 @@ from PIL import Image
 import plotly.express as px
 from PIL import Image
 
+shouldrun = False
+
 def running_missingtasks(flows_id, missing_tasks):
     for i in flows_id:
         for j in missing_tasks:
@@ -53,11 +55,19 @@ if st.button('+'):
         counter = counter + 1
         flows_id.append(flow_id4, flow_id5)
 
+if st.checkbox("Do you want to run?"):
+    shouldrun = True
+else:
+    shouldrun = False
+
+
 if st.button('Run'):
     with st.spinner("Training ongoing"):
-        missingtasks = gatheringruns(study_id, flows_id)
+        if(shouldrun == True):
+            missingtasks = gatheringruns(study_id, flows_id)
         #st.write(f'The missingtasks are:\n {missingtasks}')
         evaluation_id = loadResults(study_id, flows_id)
+
 
 expander = st.expander("See all logs")
 with expander:
