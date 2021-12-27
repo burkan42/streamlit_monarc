@@ -50,7 +50,7 @@ def gatheringruns(study_id, flows_id):
                     print(f"Trying to run flow_id {i} on task {j}")
                     get_flow = openml.flows.get_flow(i, reinstantiate=True)
                     task_missing = openml.tasks.get_task(j)
-                    run_missing = openml.runs.run_flow_on_task(flow=get_flow, task=task_missing)
+                    run_missing = openml.runs.run_flow_on_task(flow=get_flow, task=task_missing) #runs local
                 except ValueError:
                     print(f"flow_id {i} cant run on task {j}")
                 else:

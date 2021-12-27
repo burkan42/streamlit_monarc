@@ -53,17 +53,11 @@ if st.button('+'):
         counter = counter + 1
         flows_id.append(flow_id4, flow_id5)
 
-if st.button('Runm'):
-    #with st.spinner("Training ongoing"):
-    missingtasks = gatheringruns(study_id, flows_id)
-    #st.write(f'The missingtasks are:\n {missingtasks}')
-    evaluation_id = loadResults(study_id, flows_id)
-
-
-
-
-
-
+if st.button('Run'):
+    with st.spinner("Training ongoing"):
+        missingtasks = gatheringruns(study_id, flows_id)
+        #st.write(f'The missingtasks are:\n {missingtasks}')
+        evaluation_id = loadResults(study_id, flows_id)
 
 expander = st.expander("See all logs")
 with expander:
