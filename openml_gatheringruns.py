@@ -24,14 +24,14 @@ study_id = 123
 #flows_id = [7722, 7729]
 flows_id = [7754, 7756]
 task_id = [80, 23]
-missing_tasks = []
+
 #study_id = input()
 #flows_id = input()
 #2_flows_id = input()
 
 def gatheringruns(study_id, flows_id):
     for i in flows_id:
-
+        missing_tasks = []
         study = openml.study.get_study(study_id)
 
         evaluations = openml.evaluations.list_evaluations(
