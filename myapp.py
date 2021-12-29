@@ -7,10 +7,10 @@ from PIL import Image
 import plotly.express as px
 from PIL import Image
 
-
-
-# Runs the missing tasks of every flow
+# Runs the missing tasks of both flows
+# there are some optional prints left in the code that might be handy
 def running_missingtasks(flows_id, missing_tasks1, missing_tasks2):
+    #see what runs were run succesfully/unsuccesfully
     cantrun1 = []
     canrun1 = []
     cantrun2 = []
@@ -59,17 +59,21 @@ def running_missingtasks(flows_id, missing_tasks1, missing_tasks2):
 # default value = False meaning we do not run missing tasks.
 shouldrun = False
 
+
 evaluation_id = []
+# lists for the missing tasks we might need to run
 missingtasks1 = []
 missingtasks2 = []
-counter = 3
+#for nr of input boxes
+#counter = 3
 
+#header
 st.title(""" OpenML Mythbusting """)
 st.write(""" This application allows the user to fully experience what a data scientist does.""")
-st.write("""This app uses a algorithms from OpenMl to do the following:\n
+st.write("""This app uses a algorithms from OpenML to do the following:\n
         - Running flows on tasks
-        - Checks if all task are runned on a study, if not, tries to do it again
-        - Created multiple plots from the study_id""")
+        - Checks for all task if they are already ran on a flow, else runs them
+        - Create multiple plots comparing the flows on the given study""")
 
 st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")
@@ -94,12 +98,15 @@ flows_id = [flow_id1, flow_id2]
  #       counter = counter + 1
  #       flows_id.append(flow_id4, flow_id5)
 
-if st.checkbox("Do you want to run?"):
+
+
+ #checkbox should we run missing flows?
+if st.checkbox("Do you want to run missing flows (takes longer)?"):
     shouldrun = True
 else:
     shouldrun = False
 
-
+#Collects data needed, and optionally runs missing tasks
 if st.button('Run'):
     with st.spinner("Training ongoing"):
         if(shouldrun == True):
@@ -107,7 +114,7 @@ if st.button('Run'):
         #st.write(f'The missingtasks are:\n {missingtasks}')
         evaluation_id = loadResults(study_id, flows_id)
 
-
+#log to see progress of program
 expander = st.expander("See all logs")
 with expander:
     st.write("Here you can see everything that happens")
@@ -118,18 +125,13 @@ with expander:
     else:
         st.write("no errors encountered")
 
+#log for results
 plots_expander = st.expander("See the plots")
 with plots_expander:
-        st.header("The plots")
-        image = Image.open('barplot.png')
-        st.image(image, caption='barplot')
+        st.header("The plots") 
         image = Image.open('diagplot.png')
         st.image(image, caption='diagplot')
+        image = Image.open('barplot.png')
+        st.image(image, caption='barplot')
         image = Image.open('splot.png')
         st.image(image, caption='splot')
-
-
-
-
-
-
