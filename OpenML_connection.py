@@ -1,4 +1,4 @@
-import sys
+
 import openml
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,9 +6,12 @@ from sklearn import ensemble, neighbors
 import pandas as pd
 from openml.datasets import edit_dataset, fork_dataset, get_dataset
 from openml.tasks import TaskType
+from openml.study import get_study
 
 def loadResults(study_id, flows_id):
     openml.config.apikey = '6e8a64a5564e97f0f62f5bf6f18a4cd2'
+    #name of study
+    study_name = openml.study.get_study(study_id)
 
     #gets evaluations of our tasks + flows
     def evals_by_id(study_id, flows_id):
@@ -33,16 +36,16 @@ def loadResults(study_id, flows_id):
     plt.bar(order.keys(), order.values(), color=['red', 'blue'], width = 0.5)
     plt.ylabel("percentage of tasks significantly better (%)")
     plt.xlabel("flow ids")
-    plt.title('Percetage of tasks significantly better in 1 flow (based on graph above)')
+    plt.title('Tasks significantly better in one flow (based on predictive accuracy)')
     plt.savefig("barplot.png")
     # TODO: save with descriptive name
 
     #plot2
     fig_splot, ax_splot = plt.subplots()
     ax_splot.plot(range(len(evaluations_id)), sorted(evaluations_id["difference"]))
-    ax_splot.set_title('Difference non-linear and linear classifier')
+    ax_splot.set_title(f"Difference between {study_name.name}")
     ax_splot.set_xlabel("Dataset (sorted)")
-    ax_splot.set_ylabel("difference between linear and non-linear classifier")
+    ax_splot.set_ylabel(f"difference between {study_name.name}")
     ax_splot.grid(linestyle="--", axis="y")
     fig_splot.savefig("splot.png")
     # TODO: save with descriptive name

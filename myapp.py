@@ -1,11 +1,11 @@
 from scipy.sparse import data
 import streamlit as st
-import locale
 from openml_gatheringruns import *
 from OpenML_connection import *
 from PIL import Image
 import plotly.express as px
 from PIL import Image
+from openml.study import get_study
 
 # Runs the missing tasks of both flows
 # there are some optional prints left in the code that might be handy
@@ -56,6 +56,7 @@ def running_missingtasks(flows_id, missing_tasks1, missing_tasks2):
     st.write(f"{canrun2}")
     
 
+
 # default value = False meaning we do not run missing tasks.
 shouldrun = False
 
@@ -70,10 +71,11 @@ missingtasks2 = []
 #header
 st.title(""" OpenML Mythbusting """)
 st.write(""" This application allows the user to fully experience what a data scientist does.""")
-st.write("""This app uses a algorithms from OpenML to do the following:\n
+st.write("""This app uses algorithms from OpenML to do the following:\n
         - Running flows on tasks
         - Checks for all task if they are already ran on a flow, else runs them
-        - Create multiple plots comparing the flows on the given study""")
+        - Create multiple plots comparing the flows on the given study
+        version 1.0.1""")
 
 st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")

@@ -1,4 +1,4 @@
-import sys
+
 import openml
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,8 +7,6 @@ import pandas as pd
 from openml.datasets import edit_dataset, fork_dataset, get_dataset
 from openml.tasks import TaskType
 from openml.study import get_study
-import webhook_listener
-import time
 
 
 openml.config.apikey = '6e8a64a5564e97f0f62f5bf6f18a4cd2'
