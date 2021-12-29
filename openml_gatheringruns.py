@@ -29,6 +29,7 @@ task_id = [80, 23]
 #flows_id = input()
 #2_flows_id = input()
 
+#
 def gatheringruns(study_id, flows_id):
     for i in flows_id:
         missing_tasks = []
@@ -40,9 +41,9 @@ def gatheringruns(study_id, flows_id):
         for tasks in study.tasks:
             if tasks not in evaluations.task_id:
                 missing_tasks.append(tasks)
-                #run_missing = openml.runs.run_flow_on_task(task_id=tasks, flow=flows_id[0])
-        # do something
-        print('missing_tasks', missing_tasks)
+        print('missing_tasks', missing_tasks,i)
+
+        #this is now done in the main, but here was also a fine option
         """
         for i in flows_id:
             for j in missing_tasks:
