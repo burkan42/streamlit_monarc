@@ -20,10 +20,10 @@ openml.config.apikey = '6e8a64a5564e97f0f62f5bf6f18a4cd2'
 # flow type will come later
 # ToDo: find id corresponding to above given name
 
-study_id = 123
+#study_id = 123
 #flows_id = [7722, 7729]
-flows_id = [7754, 7756]
-task_id = [80, 23]
+#flows_id = [7754, 7756]
+
 
 #study_id = input()
 #flows_id = input()
@@ -31,17 +31,20 @@ task_id = [80, 23]
 
 #
 def gatheringruns(study_id, flows_id):
+    missing_tasks_flow1 = []
+    missing_tasks_flow2 = []
     for i in flows_id:
-        missing_tasks = []
         study = openml.study.get_study(study_id)
 
         evaluations = openml.evaluations.list_evaluations(
-            function='predictive_accuracy', output_format='dataframe')
+            function='predictive_accuracy', output_format='dataframe')#flow = flow_ID?
 
         for tasks in study.tasks:
             if tasks not in evaluations.task_id:
-                missing_tasks.append(tasks)
-        print('missing_tasks', missing_tasks,i)
+                missing_tasks_flow1.append(tasks)
+        print('missing_tasks', missing_tasks_flow1)
+
+
 
         #this is now done in the main, but here was also a fine option
         """
@@ -57,6 +60,6 @@ def gatheringruns(study_id, flows_id):
                 else:
                     print("is succesful!")
         """
-    return missing_tasks
+    return missing_tasks_flow1#, missing_tasks_flow2
 
 
