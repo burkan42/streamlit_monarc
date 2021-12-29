@@ -43,7 +43,7 @@ def gatheringruns(study_id, flows_id):
                 #run_missing = openml.runs.run_flow_on_task(task_id=tasks, flow=flows_id[0])
         # do something
         print('missing_tasks', missing_tasks)
-
+        """
         for i in flows_id:
             for j in missing_tasks:
                 try:
@@ -55,7 +55,7 @@ def gatheringruns(study_id, flows_id):
                     print(f"flow_id {i} cant run on task {j}")
                 else:
                     print("is succesful!")
-        
+        """
     return missing_tasks
 
 

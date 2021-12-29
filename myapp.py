@@ -7,8 +7,10 @@ from PIL import Image
 import plotly.express as px
 from PIL import Image
 
+# default value = False meaning we do not run missing tasks.
 shouldrun = False
 
+# Runs the missing tasks of every flow
 def running_missingtasks(flows_id, missing_tasks):
     for i in flows_id:
         for j in missing_tasks:
@@ -36,7 +38,7 @@ st.write("""This app uses a algorithms from OpenMl to do the following:\n
 st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")
 
-#inputs
+#input fields
 study_id = st.number_input("study_id: (ex. 123)",step=1, value=123, min_value = 0, max_value=100000000)
 flow_id1 = st.number_input("flow_id1: (ex. 7754)",step=1, value=7754, min_value = 0, max_value=100000000)
 flow_id2 = st.number_input("flow_id2: (ex. 7756)",step=1, value=7756, min_value = 0, max_value=100000000)
