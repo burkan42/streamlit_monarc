@@ -75,7 +75,7 @@ st.write("""This app uses algorithms from OpenML to do the following:\n
         - Running flows on tasks
         - Checks for all task if they are already ran on a flow, else runs them
         - Create multiple plots comparing the flows on the given study
-        version 1.0.1""")
+        version 1.1.0""")
 
 st.header("Criterias")
 st.write("Please give an input to all of the following:\n  ")
